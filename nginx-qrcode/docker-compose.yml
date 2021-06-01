@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+
+  qrcode:
+    image: docker.lab.io/qrcode.lab.io
+    expose:
+      - 80

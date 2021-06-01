@@ -1,0 +1,18 @@
+version: "3.6"
+
+services:
+
+  health.lab.io:
+    image: nginx:1.18.0-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    healthcheck:
+      # 老版本使用
+      # test: ["CMD-SHELL", "wget -q --spider --proxy off localhost:80/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f localhost/health || exit 1"]
+      interval: 3s
+      retries: 12
