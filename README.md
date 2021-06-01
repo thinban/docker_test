@@ -2,6 +2,7 @@
 参考苏洋大神博客学习docker里nginx的应用
 
 ## 目录说明
+```
 .
 ├── nginx-health  # docker-compose健康检查和自签名证书
 │   ├── create-self-ca.sh
@@ -15,6 +16,7 @@
     ├── docker-compose.yml
     ├── Dockerfile
     └── nginx.conf
+```
 
 
 
