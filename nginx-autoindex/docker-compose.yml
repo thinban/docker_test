@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: ${NGX_IMAGE}
+    restart: always
+    expose:
+      - 80
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:${NGX_DOMAIN}"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.frontend.headers.customResponseHeaders=Access-Control-Allow-Origin:*"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./mime.types:/etc/nginx/mime.types:ro
+      - ./autoindex:/usr/share/nginx/.autoindex:ro
+      - ./favicon.png:/usr/share/nginx/.res/favicon.png:ro
+      - ./public:/usr/share/nginx/html
+    extra_hosts:
+      - "${NGX_DOMAIN}:127.0.0.1"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider --proxy off localhost/health-check || exit 1"]
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "10m"
+
+networks:
+  traefik:
+    external: true

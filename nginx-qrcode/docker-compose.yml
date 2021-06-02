@@ -6,3 +6,14 @@ services:
     image: docker.lab.io/qrcode.lab.io
     expose:
       - 80
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:qrcode.lab.io"
+      - "traefik.frontend.entryPoints=http,https"
+
+networks:
+  traefik:
+    external: true
